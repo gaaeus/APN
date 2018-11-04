@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APN.DBContexts;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,8 @@ namespace APN.Model
     public class Audio : IDisposable
     {
         #region Properties
+
+        private readonly AudioDBContext context;
 
         public uint? AudioId { get; set; }
         public uint NoteId { get; set; }
