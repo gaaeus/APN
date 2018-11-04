@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APN.DBContexts;
+using APN.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +15,15 @@ namespace APN.Controllers
     {
         // GET: api/Audio
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Audio> Get()
         {
-            return new string[] { "value1", "value2" };
+            AudioDBContext audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
+
+            return audioDBcontext.GetAudios();
         }
 
         // GET: api/Audio/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
