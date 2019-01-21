@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APN.DBContexts;
@@ -10,9 +11,9 @@ namespace APN.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AudioController : ControllerBase
+    public class ImageController : ControllerBase
     {
-        // GET: api/Audio
+        // GET: api/Image
         [HttpGet]
         public async Task<IEnumerable<Audio>> Get()
         {
@@ -21,22 +22,20 @@ namespace APN.Controllers
             return await audioDBcontext.GetAudios();
         }
 
-        // GET: api/Audio/5
-        [HttpGet("{id}", Name = "GetAudio")]
-        public async Task<Audio> Get(int id)
+        // GET: api/Image/5
+        [HttpGet("{id}", Name = "GetImage")]
+        public string Get(int id)
         {
-            AudioDBContext audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
-
-            return await audioDBcontext.GetAudio(id);
+            return "value";
         }
 
-        // POST: api/Audio
+        // POST: api/Image
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Audio/5
+        // PUT: api/Image/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

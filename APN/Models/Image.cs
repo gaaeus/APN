@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using APN.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace APN.Model
@@ -20,7 +20,7 @@ namespace APN.Model
 		public string ImageDescription  { get; set; }
         [MaxLength(1024)]
         public string ImagePath { get; set; }
-        public Tuple<double, double, double> ImageCoordinates { get; set; }
+        public BasicGeoposition ImageCoordinates { get; set; }
         public DateTime ImageDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }

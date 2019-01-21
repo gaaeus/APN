@@ -1,4 +1,5 @@
 ﻿using APN.DBContexts;
+using APN.Models;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +24,7 @@ namespace APN.Model
 		public string AudioDescription  { get; set; }
         [MaxLength(1024)]
         public string AudioPath { get; set; }
-        public Tuple<double, double, double> AudioCoordinates { get; set; }
+        public BasicGeoposition AudioCoordinates { get; set; }
         public DateTime AudioDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }

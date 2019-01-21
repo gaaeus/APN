@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace APN.DBContexts
 {
     /// <summary>
-    /// Database context class for the Audio Class
+    /// Database context class for the Image Class
     /// </summary>
-    public class AudioDBContext
+    public class ImageDBContext
     {
         public string ConnectionString { get; set; }
 
-        public AudioDBContext(string connectionString)
+        public ImageDBContext(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
@@ -28,29 +28,29 @@ namespace APN.DBContexts
         /// <summary>
         /// Retrieves the whole list of Audio Records from the database
         /// </summary>
-        public async Task<List<Audio>> GetAudios()
+        public async Task<List<Image>> GetAudios()
         {
-            var list = new List<Audio>();
+            var list = new List<Image>();
 
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM audio", conn);
+                var cmd = new MySqlCommand("SELECT * FROM image", conn);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
-                        list.Add(new Audio()
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["ImageCoordinateLat"]), Convert.ToDouble(reader["ImageCoordinateLng"]), Convert.ToDouble(reader["ImageCoordinateAlt"]));
+                        list.Add(new Image()
                         {
-                            AudioId = Convert.ToUInt32(reader["AudioId"]),
+                            ImageId = Convert.ToUInt32(reader["ImageId"]),
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
-                            AudioNo = reader["AudioNo"].ToString(),
-                            AudioName = reader["AudioName"].ToString(),
-                            AudioDescription = reader["AudioDescription"].ToString(),
-                            AudioPath = reader["AudioPath"].ToString(),
-                            AudioCoordinates = coordinates,
-                            AudioDatetime = Convert.ToDateTime(reader["AudioDatetime"]),
+                            ImageNo = reader["ImageNo"].ToString(),
+                            ImageName = reader["ImageName"].ToString(),
+                            ImageDescription = reader["ImageDescription"].ToString(),
+                            ImagePath = reader["ImagePath"].ToString(),
+                            ImageCoordinates = coordinates,
+                            ImageDatetime = Convert.ToDateTime(reader["ImageDatetime"]),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),
                             ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"]),
@@ -63,33 +63,33 @@ namespace APN.DBContexts
         }
 
         /// <summary>
-        /// Retrieves a single Audio Record from the database
+        /// Retrieves a single Image Record from the database
         /// </summary>
-        public async Task<Audio> GetAudio(int id)
+        public async Task<Image> GetAudio(int id)
         {
-            Audio audioRecord = null;
+            Image imageRecord = null;
 
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM audio WHERE AudioId = @audioId", conn);
-                cmd.Parameters.AddWithValue("@audioId", id);
+                var cmd = new MySqlCommand("SELECT * FROM image WHERE ImageId = @imageId", conn);
+                cmd.Parameters.AddWithValue("@imageId", id);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
                     while (reader.Read())
                     {
-                        audioRecord = new Audio()
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["ImageCoordinateLat"]), Convert.ToDouble(reader["ImageCoordinateLng"]), Convert.ToDouble(reader["ImageCoordinateAlt"]));
+                        imageRecord = new Image()
                         {
-                            AudioId = Convert.ToUInt32(reader["AudioId"]),
+                            ImageId = Convert.ToUInt32(reader["ImageId"]),
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
-                            AudioNo = reader["AudioNo"].ToString(),
-                            AudioName = reader["AudioName"].ToString(),
-                            AudioDescription = reader["AudioDescription"].ToString(),
-                            AudioPath = reader["AudioPath"].ToString(),
-                            AudioCoordinates = coordinates,
-                            AudioDatetime = Convert.ToDateTime(reader["AudioDatetime"]),
+                            ImageNo = reader["ImageNo"].ToString(),
+                            ImageName = reader["ImageName"].ToString(),
+                            ImageDescription = reader["ImageDescription"].ToString(),
+                            ImagePath = reader["ImagePath"].ToString(),
+                            ImageCoordinates = coordinates, 
+                            ImageDatetime = Convert.ToDateTime(reader["ImageDatetime"]),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),
                             ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"]),
@@ -98,7 +98,7 @@ namespace APN.DBContexts
                     }
                 }
             }
-            return audioRecord;
+            return imageRecord;
         }
     }
 }
