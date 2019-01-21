@@ -36,7 +36,7 @@ namespace APN.Model
 
         public Image() { }
 
-        public Image(uint? imageId, uint noteId, string imageNo, string imageName, string imageDescription, string imagePath, Tuple<double, double, double> imageCoordinates, DateTime imageDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
+        public Image(uint? imageId, uint noteId, string imageNo, string imageName, string imageDescription, string imagePath, BasicGeoposition imageCoordinates, DateTime imageDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
         {
             ImageId = imageId;
             NoteId = noteId;

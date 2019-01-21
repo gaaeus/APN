@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APN.Models;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +21,7 @@ namespace APN.Model
 		public string VideoDescription  { get; set; }
         [MaxLength(1024)]
         public string VideoPath { get; set; }
-        public Tuple<double, double, double> VideoCoordinates { get; set; }
+        public BasicGeoposition VideoCoordinates { get; set; }
         public DateTime VideoDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }
@@ -36,7 +37,7 @@ namespace APN.Model
 
         public Video() { }
 
-        public Video(uint? videoId, uint noteId, string videoNo, string videoName, string videoDescription, string videoPath, Tuple<double, double, double> videoCoordinates, DateTime videoDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
+        public Video(uint? videoId, uint noteId, string videoNo, string videoName, string videoDescription, string videoPath, BasicGeoposition videoCoordinates, DateTime videoDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
         {
             VideoId = videoId;
             NoteId = noteId;

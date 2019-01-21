@@ -9,33 +9,33 @@ namespace APN.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ImageController : ControllerBase
+    public class VideoController : ControllerBase
     {
-        // GET: api/Image
+        // GET: api/Video
         [HttpGet]
-        public async Task<IEnumerable<Image>> Get()
+        public async Task<IEnumerable<Video>> Get()
         {
-            var imageDBcontext = HttpContext.RequestServices.GetService(typeof(ImageDBContext)) as ImageDBContext;
+            var VideoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
 
-            return await imageDBcontext.GetImages();
+            return await VideoDBcontext.GetVideos();
         }
 
-        // GET: api/Image/5
-        [HttpGet("{id}", Name = "GetImage")]
-        public async Task<Image> Get(int id)
+        // GET: api/Video/5
+        [HttpGet("{id}", Name = "GetVideo")]
+        public async Task<Video> Get(int id)
         {
-            var imageDBcontext = HttpContext.RequestServices.GetService(typeof(ImageDBContext)) as ImageDBContext;
+            var VideoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
 
-            return await imageDBcontext.GetImage(id);
+            return await VideoDBcontext.GetVideo(id);
         }
 
-        // POST: api/Image
+        // POST: api/Video
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Image/5
+        // PUT: api/Video/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

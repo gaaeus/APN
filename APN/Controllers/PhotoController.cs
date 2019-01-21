@@ -9,33 +9,33 @@ namespace APN.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ImageController : ControllerBase
+    public class PhotoController : ControllerBase
     {
-        // GET: api/Image
+        // GET: api/Photo
         [HttpGet]
-        public async Task<IEnumerable<Image>> Get()
+        public async Task<IEnumerable<Photo>> Get()
         {
-            var imageDBcontext = HttpContext.RequestServices.GetService(typeof(ImageDBContext)) as ImageDBContext;
+            var PhotoDBcontext = HttpContext.RequestServices.GetService(typeof(PhotoDBContext)) as PhotoDBContext;
 
-            return await imageDBcontext.GetImages();
+            return await PhotoDBcontext.GetPhotos();
         }
 
-        // GET: api/Image/5
-        [HttpGet("{id}", Name = "GetImage")]
-        public async Task<Image> Get(int id)
+        // GET: api/Photo/5
+        [HttpGet("{id}", Name = "GetPhoto")]
+        public async Task<Photo> Get(int id)
         {
-            var imageDBcontext = HttpContext.RequestServices.GetService(typeof(ImageDBContext)) as ImageDBContext;
+            var PhotoDBcontext = HttpContext.RequestServices.GetService(typeof(PhotoDBContext)) as PhotoDBContext;
 
-            return await imageDBcontext.GetImage(id);
+            return await PhotoDBcontext.GetPhoto(id);
         }
 
-        // POST: api/Image
+        // POST: api/Photo
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Image/5
+        // PUT: api/Photo/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

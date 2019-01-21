@@ -14,8 +14,6 @@ namespace APN.Model
     {
         #region Properties
 
-        private readonly AudioDBContext context;
-
         public uint? AudioId { get; set; }
         public uint NoteId { get; set; }
         [MaxLength(12)]
@@ -40,7 +38,7 @@ namespace APN.Model
 
         public Audio() { }
 
-        public Audio(uint? audioId, uint noteId, string audioNo, string audioName, string audioDescription, string audioPath, Tuple<double, double, double> audioCoordinates, DateTime audioDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
+        public Audio(uint? audioId, uint noteId, string audioNo, string audioName, string audioDescription, string audioPath, BasicGeoposition audioCoordinates, DateTime audioDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
         {
             AudioId = audioId;
             NoteId = noteId;

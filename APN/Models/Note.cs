@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APN.Models;
+using System;
 using System.Collections.Generic;
 
 namespace APN.Model
@@ -30,15 +31,17 @@ namespace APN.Model
         public uint CategoryId { get; set; }
         public string NoteTitle { get; set; }
         public string NoteContent { get; set; }
-        public Tuple<double, double, double> NoteCoordinates { get; set; }
+        public BasicGeoposition NoteCoordinates { get; set; }
         public DateTime NoteDatetime { get; set; }
         public string APP_GUID { get; set; }
         public NoteClassification NoteClassification { get; set; }
 
         public ICollection<Image> Imagecollection { get; set; }
         public ICollection<Video> Videocollection { get; set; }
+        public ICollection<Photo> Photocollection { get; set; }
+        public ICollection<Audio> Audiocollection { get; set; }
 
-		public uint CreatedBy { get; set; }
+        public uint CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }
 		public uint? ModifiedBy { get; set; }
 		public DateTime? ModifiedAt { get; set; }
@@ -50,8 +53,8 @@ namespace APN.Model
         #region Constructor
 
         public Note() { }
-
-        public Note(uint? noteId, uint categoryId, string noteTitle, string noteContent, Tuple<double, double, double> noteCoordinates, DateTime noteDatetime, string APP_GUID, NoteClassification noteClassification, ICollection<Image> imageCollection, ICollection<Video> videoCollection, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
+        
+        public Note(uint? noteId, uint categoryId, string noteTitle, string noteContent, BasicGeoposition noteCoordinates, DateTime noteDatetime, string APP_GUID, NoteClassification noteClassification, ICollection<Image> imageCollection, ICollection<Video> videoCollection, ICollection<Photo> photocollection, ICollection<Audio> audiocollection, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
         {
             NoteId = noteId;
             CategoryId = categoryId;
@@ -63,6 +66,8 @@ namespace APN.Model
             NoteClassification = noteClassification;
             Imagecollection = imageCollection;
             Videocollection = videoCollection;
+            Photocollection = photocollection;
+            Audiocollection = audiocollection;
 			CreatedBy = createdBy;
 			CreatedAt = createdAt;
 			ModifiedBy = modifiedBy;

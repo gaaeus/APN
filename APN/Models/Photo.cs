@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APN.Models;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +21,7 @@ namespace APN.Model
 		public string PhotoDescription  { get; set; }
         [MaxLength(1024)]
         public string PhotoPath { get; set; }
-        public Tuple<double, double, double> PhotoCoordinates { get; set; }
+        public BasicGeoposition PhotoCoordinates { get; set; }
         public DateTime PhotoDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }
@@ -36,7 +37,7 @@ namespace APN.Model
 
         public Photo() { }
 
-        public Photo(uint? photoId, uint noteId, string photoNo, string photoName, string photoDescription, string photoPath, Tuple<double, double, double> photoCoordinates, DateTime photoDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
+        public Photo(uint? photoId, uint noteId, string photoNo, string photoName, string photoDescription, string photoPath, BasicGeoposition photoCoordinates, DateTime photoDatetime, uint createdBy, DateTime createdAt, uint? modifiedBy, DateTime? modifiedAt)
         {
             PhotoId = photoId;
             NoteId = noteId;

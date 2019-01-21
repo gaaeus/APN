@@ -11,24 +11,17 @@ namespace APN.DBContexts
     /// <summary>
     /// Database context class for the Image Class
     /// </summary>
-    public class ImageDBContext
+    public class ImageDBContext : BaseDBContext
     {
-        public string ConnectionString { get; set; }
-
         public ImageDBContext(string connectionString)
         {
-            this.ConnectionString = connectionString;
-        }
-
-        private MySqlConnection GetConnection()
-        {
-            return new MySqlConnection(ConnectionString);
+            ConnectionString = connectionString;
         }
 
         /// <summary>
         /// Retrieves the whole list of Audio Records from the database
         /// </summary>
-        public async Task<List<Image>> GetAudios()
+        public async Task<List<Image>> GetImages()
         {
             var list = new List<Image>();
 
@@ -65,7 +58,7 @@ namespace APN.DBContexts
         /// <summary>
         /// Retrieves a single Image Record from the database
         /// </summary>
-        public async Task<Image> GetAudio(int id)
+        public async Task<Image> GetImage(int id)
         {
             Image imageRecord = null;
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using APN.DBContexts;
 using APN.Model;
@@ -16,7 +15,7 @@ namespace APN.Controllers
         [HttpGet]
         public async Task<IEnumerable<Audio>> Get()
         {
-            AudioDBContext audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
+            var audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
 
             return await audioDBcontext.GetAudios();
         }
@@ -25,7 +24,7 @@ namespace APN.Controllers
         [HttpGet("{id}", Name = "GetAudio")]
         public async Task<Audio> Get(int id)
         {
-            AudioDBContext audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
+            var audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
 
             return await audioDBcontext.GetAudio(id);
         }

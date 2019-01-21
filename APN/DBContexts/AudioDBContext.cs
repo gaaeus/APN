@@ -11,18 +11,11 @@ namespace APN.DBContexts
     /// <summary>
     /// Database context class for the Audio Class
     /// </summary>
-    public class AudioDBContext
+    public class AudioDBContext : BaseDBContext
     {
-        public string ConnectionString { get; set; }
-
         public AudioDBContext(string connectionString)
         {
-            this.ConnectionString = connectionString;
-        }
-
-        private MySqlConnection GetConnection()
-        {
-            return new MySqlConnection(ConnectionString);
+            ConnectionString = connectionString;
         }
 
         /// <summary>
