@@ -16,7 +16,7 @@ CREATE TABLE `apn`.`audio` (
   PRIMARY KEY (`AudioId`),
   UNIQUE INDEX `AudioID_UNIQUE` (`AudioId` ASC) VISIBLE);
   
-  CREATE TABLE `apn`.`image` (
+CREATE TABLE `apn`.`image` (
   `ImageId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `NoteId` INT UNSIGNED NOT NULL,
   `ImageNo` VARCHAR(12) NULL,
@@ -33,3 +33,58 @@ CREATE TABLE `apn`.`audio` (
   `ModifiedAt` DATETIME NULL,
   PRIMARY KEY (`ImageId`),
   UNIQUE INDEX `ImageID_UNIQUE` (`ImageId` ASC) VISIBLE);
+
+CREATE TABLE `apn`.`photo` (
+  `PhotoId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `NoteId` INT UNSIGNED NOT NULL,
+  `PhotoNo` VARCHAR(12) NULL,
+  `PhotoName` VARCHAR(45) NOT NULL,
+  `PhotoDescription` VARCHAR(45) NULL,
+  `PhotoPath` VARCHAR(1024) NULL,
+  `PhotoCoordinateLat` DOUBLE NULL,
+  `PhotoCoordinateLng` DOUBLE NULL,
+  `PhotoCoordinateAlt` DOUBLE NULL,
+  `PhotoDatetime` DATETIME NULL,
+  `CreatedBy` INT NOT NULL,
+  `CreatedAt` DATETIME NOT NULL,
+  `ModifiedBy` INT NULL,
+  `ModifiedAt` DATETIME NULL,
+  PRIMARY KEY (`PhotoId`),
+  UNIQUE INDEX `PhotoID_UNIQUE` (`PhotoId` ASC) VISIBLE);
+  
+CREATE TABLE `apn`.`video` (
+  `VideoId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `NoteId` INT UNSIGNED NOT NULL,
+  `VideoNo` VARCHAR(12) NULL,
+  `VideoName` VARCHAR(45) NOT NULL,
+  `VideoDescription` VARCHAR(45) NULL,
+  `VideoPath` VARCHAR(1024) NULL,
+  `VideoCoordinateLat` DOUBLE NULL,
+  `VideoCoordinateLng` DOUBLE NULL,
+  `VideoCoordinateAlt` DOUBLE NULL,
+  `VideoDatetime` DATETIME NULL,
+  `CreatedBy` INT NOT NULL,
+  `CreatedAt` DATETIME NOT NULL,
+  `ModifiedBy` INT NULL,
+  `ModifiedAt` DATETIME NULL,
+  PRIMARY KEY (`VideoId`),
+  UNIQUE INDEX `VideoID_UNIQUE` (`VideoId` ASC) VISIBLE);
+  
+CREATE TABLE `apn`.`note` (
+  `NoteId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `CategoryId` INT UNSIGNED NOT NULL,
+  `NoteClassification` INT UNSIGNED NOT NULL,
+  `NoteTitle` VARCHAR(256) NOT NULL,
+  `APP_GUID` VARCHAR(256) NOT NULL,
+  `NoteContent` TEXT NOT NULL,
+  `NoteCoordinateLat` DOUBLE NULL,
+  `NoteCoordinateLng` DOUBLE NULL,
+  `NoteCoordinateAlt` DOUBLE NULL,
+  `NoteDatetime` DATETIME NULL,
+  `CreatedBy` INT NOT NULL,
+  `CreatedAt` DATETIME NOT NULL,
+  `ModifiedBy` INT NULL,
+  `ModifiedAt` DATETIME NULL,
+  PRIMARY KEY (`NoteId`),
+  UNIQUE INDEX `NoteID_UNIQUE` (`NoteId` ASC) VISIBLE);
+  

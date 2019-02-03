@@ -28,7 +28,7 @@ namespace APN.DBContexts
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM Video", conn);
+                var cmd = new MySqlCommand("SELECT * FROM video", conn);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
