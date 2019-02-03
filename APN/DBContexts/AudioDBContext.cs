@@ -21,14 +21,16 @@ namespace APN.DBContexts
         /// <summary>
         /// Retrieves the whole list of Audio Records from the database
         /// </summary>
-        public async Task<List<Audio>> GetAudios()
+        public async Task<List<Audio>> GetAudios(int noteId)
         {
             var list = new List<Audio>();
 
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM audio", conn);
+                var cmd = new MySqlCommand("SELECT * FROM audio where NoteId = @noteId", conn);
+                cmd.Parameters.AddWithValue("@NoteId", noteId);
+
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
@@ -58,21 +60,24 @@ namespace APN.DBContexts
         /// <summary>
         /// Retrieves a single Audio Record from the database
         /// </summary>
-        public async Task<Audio> GetAudio(int id)
+        public async Task<Audio> GetAudio(int noteId, int id)
         {
             Audio audioRecord = null;
 
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM audio WHERE AudioId = @audioId", conn);
+                string sqlText = "SELECT * FROM audio WHERE NoteId = @NoteId AND AudioId = @audioId";
+                var cmd = new MySqlCommand(sqlText, conn);
+                cmd.Parameters.AddWithValue("@NoteId", noteId);
                 cmd.Parameters.AddWithValue("@audioId", id);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
                     while (reader.Read())
                     {
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
+
                         audioRecord = new Audio()
                         {
                             AudioId = Convert.ToUInt32(reader["AudioId"]),

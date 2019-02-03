@@ -20,6 +20,7 @@ namespace APN
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Add(new ServiceDescriptor(typeof(NoteDBContext), new NoteDBContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(AudioDBContext), new AudioDBContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(VideoDBContext), new VideoDBContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(ImageDBContext), new ImageDBContext(Configuration.GetConnectionString("DefaultConnection"))));

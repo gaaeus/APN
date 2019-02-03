@@ -13,3 +13,4 @@ C:\Development\APN\APN\obj\Debug\netcoreapp2.1\APN.AssemblyInfo.cs
 C:\Development\APN\APN\obj\Debug\netcoreapp2.1\APN.RazorTargetAssemblyInfo.cache
 C:\Development\APN\APN\obj\Debug\netcoreapp2.1\APN.dll
 C:\Development\APN\APN\obj\Debug\netcoreapp2.1\APN.pdb
+C:\Development\APN\APN\obj\Debug\netcoreapp2.1\APN.csprojAssemblyReference.cache

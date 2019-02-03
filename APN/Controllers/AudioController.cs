@@ -11,22 +11,22 @@ namespace APN.Controllers
     [ApiController]
     public class AudioController : ControllerBase
     {
-        // GET: api/Audio
-        [HttpGet]
-        public async Task<IEnumerable<Audio>> Get()
+        // GET: api/Audio/5
+        [HttpGet("{noteId}")]
+        public async Task<IEnumerable<Audio>> Get(int noteId)
         {
             var audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
 
-            return await audioDBcontext.GetAudios();
+            return await audioDBcontext.GetAudios(noteId);
         }
 
-        // GET: api/Audio/5
-        [HttpGet("{id}", Name = "GetAudio")]
-        public async Task<Audio> Get(int id)
+        // GET: api/Audio/5/11
+        [HttpGet("{noteId}/{id}", Name = "GetAudio")]
+        public async Task<Audio> Get(int noteId, int id)
         {
             var audioDBcontext = HttpContext.RequestServices.GetService(typeof(AudioDBContext)) as AudioDBContext;
 
-            return await audioDBcontext.GetAudio(id);
+            return await audioDBcontext.GetAudio(noteId, id);
         }
 
         // POST: api/Audio

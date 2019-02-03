@@ -60,7 +60,7 @@ namespace APN.DBContexts
         /// </summary>
         public async Task<Video> GetVideo(int id)
         {
-            Video VideoRecord = null;
+            Video videoRecord = null;
 
             using (var conn = GetConnection())
             {
@@ -70,10 +70,10 @@ namespace APN.DBContexts
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    var coordinates = new BasicGeoposition(Convert.ToDouble(reader["VideoCoordinateLat"]), Convert.ToDouble(reader["VideoCoordinateLng"]), Convert.ToDouble(reader["VideoCoordinateAlt"]));
                     while (reader.Read())
                     {
-                        VideoRecord = new Video()
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["VideoCoordinateLat"]), Convert.ToDouble(reader["VideoCoordinateLng"]), Convert.ToDouble(reader["VideoCoordinateAlt"]));
+                        videoRecord = new Video()
                         {
                             VideoId = Convert.ToUInt32(reader["VideoId"]),
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -91,7 +91,7 @@ namespace APN.DBContexts
                     }
                 }
             }
-            return VideoRecord;
+            return videoRecord;
         }
     }
 }

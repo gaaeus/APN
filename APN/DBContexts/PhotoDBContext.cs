@@ -60,7 +60,7 @@ namespace APN.DBContexts
         /// </summary>
         public async Task<Photo> GetPhoto(int id)
         {
-            Photo PhotoRecord = null;
+            Photo photoRecord = null;
 
             using (var conn = GetConnection())
             {
@@ -69,11 +69,11 @@ namespace APN.DBContexts
                 cmd.Parameters.AddWithValue("@photoId", id);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    var coordinates = new BasicGeoposition(Convert.ToDouble(reader["PhotoCoordinateLat"]), Convert.ToDouble(reader["PhotoCoordinateLng"]), Convert.ToDouble(reader["PhotoCoordinateAlt"]));
+                {                    
                     while (reader.Read())
                     {
-                        PhotoRecord = new Photo()
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["PhotoCoordinateLat"]), Convert.ToDouble(reader["PhotoCoordinateLng"]), Convert.ToDouble(reader["PhotoCoordinateAlt"]));
+                        photoRecord = new Photo()
                         {
                             PhotoId = Convert.ToUInt32(reader["PhotoId"]),
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -91,7 +91,7 @@ namespace APN.DBContexts
                     }
                 }
             }
-            return PhotoRecord;
+            return photoRecord;
         }
     }
 }
