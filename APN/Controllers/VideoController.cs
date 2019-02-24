@@ -15,18 +15,18 @@ namespace APN.Controllers
         [HttpGet]
         public async Task<IEnumerable<Video>> Get()
         {
-            var VideoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
+            var videoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
 
-            return await VideoDBcontext.GetVideos();
+            return await videoDBcontext.GetVideos();
         }
 
         // GET: api/Video/5
         [HttpGet("{id}", Name = "GetVideo")]
         public async Task<Video> Get(int id)
         {
-            var VideoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
+            var videoDBcontext = HttpContext.RequestServices.GetService(typeof(VideoDBContext)) as VideoDBContext;
 
-            return await VideoDBcontext.GetVideo(id);
+            return await videoDBcontext.GetVideo(id);
         }
 
         // POST: api/Video

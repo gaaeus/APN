@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using APN.DBContexts;
+using APN.Model;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,27 +15,35 @@ namespace APN.Controllers
     {
         // GET: api/Note
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<Note>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var noteDBContext= HttpContext.RequestServices.GetService(typeof(NoteDBContext)) as NoteDBContext;
+
+            return await noteDBContext.GetNotes();
         }
 
         // GET: api/Note/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetNote")]
+        public async Task<Note> Get(int id)
         {
-            return "value";
+            var noteDBContext = HttpContext.RequestServices.GetService(typeof(NoteDBContext)) as NoteDBContext;
+
+            return await noteDBContext.GetNote(id);
         }
 
         // POST: api/Note
         [HttpPost]
-        public void Post([FromBody] string value)
+        [DisableCors]
+        public async Task<int> Post([FromBody] Note note)
         {
+            var noteDBContext = HttpContext.RequestServices.GetService(typeof(NoteDBContext)) as NoteDBContext;
+            note.APP_GUID = Guid.NewGuid().ToString();
+            return await noteDBContext.CreateNote(note);
         }
 
         // PUT: api/Note/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Note note)
         {
         }
 

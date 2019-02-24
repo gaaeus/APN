@@ -3,7 +3,6 @@ using APN.Models;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace APN.DBContexts
@@ -33,7 +32,10 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["NoteCoordinateLat"]), Convert.ToDouble(reader["NoteCoordinateLng"]), Convert.ToDouble(reader["NoteCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition( ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
+                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
+                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
+
                         list.Add(new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -70,7 +72,9 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["NoteCoordinateLat"]), Convert.ToDouble(reader["NoteCoordinateLng"]), Convert.ToDouble(reader["NoteCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
                         noteRecord = new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -90,6 +94,85 @@ namespace APN.DBContexts
                 }
             }
             return noteRecord;
+        }
+
+        public async Task<int> CreateNote(Note newNote)
+        {
+            int newId = -1;
+
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+
+                    var strSQL = @"INSERT INTO note (
+                                                    CategoryId,
+                                                    NoteClassification,
+                                                    NoteTitle,
+                                                    APP_GUID,
+                                                    NoteContent,
+                                                    NoteCoordinateLat,
+                                                    NoteCoordinateLng,
+                                                    NoteCoordinateAlt,
+                                                    NoteDatetime,
+                                                    CreatedBy,
+                                                    CreatedAt,
+                                                    ModifiedBy,
+                                                    ModifiedAt
+                                                )
+                                                VALUES (
+                                                    @CategoryId,
+                                                    @NoteClassification,
+                                                    @NoteTitle,
+                                                    @APP_GUID,
+                                                    @NoteContent,
+                                                    @NoteCoordinateLat,
+                                                    @NoteCoordinateLng,
+                                                    @NoteCoordinateAlt,
+                                                    @NoteDatetime,
+                                                    @CreatedBy,
+                                                    NOW(),
+                                                    @ModifiedBy,
+                                                    NOW()
+                                                );
+                                                SELECT LAST_INSERT_ID();";
+
+                    var cmd = new MySqlCommand(strSQL, conn);
+
+                    cmd.Parameters.AddWithValue("@CategoryId", newNote.CategoryId);
+                    cmd.Parameters.AddWithValue("@NoteClassification", newNote.NoteClassification);
+                    cmd.Parameters.AddWithValue("@NoteTitle", newNote.NoteTitle);
+                    cmd.Parameters.AddWithValue("@APP_GUID", newNote.APP_GUID);
+                    cmd.Parameters.AddWithValue("@NoteContent", newNote.NoteContent);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateLat", newNote.NoteCoordinates.Latitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateLng", newNote.NoteCoordinates.Longitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateAlt", newNote.NoteCoordinates.Altitude);
+                    cmd.Parameters.AddWithValue("@NoteDatetime", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@CreatedBy", 100);
+                    cmd.Parameters.AddWithValue("@ModifiedBy", 100);
+
+                    cmd.Prepare();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            newId = Convert.ToInt32(reader["LAST_INSERT_ID()"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+            
+            return newId;
+        }
+
+        public async Task UpdateNote(Note note)
+        {
+
         }
     }
 }

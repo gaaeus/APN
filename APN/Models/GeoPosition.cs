@@ -5,17 +5,17 @@
         /// <summary>
         /// The latitude of the geographic position.
         /// </summary>
-        double Latitude;
+        public double? Latitude;
 
         /// <summary>
         /// The longitude of the geographic position.
         /// </summary>
-        double Longitude;
+        public double? Longitude;
 
         /// <summary>
         /// The altitude of the geographic position.
         /// </summary>
-        double Altitude;
+        public double? Altitude;
 
         public BasicGeoposition() {}
 
