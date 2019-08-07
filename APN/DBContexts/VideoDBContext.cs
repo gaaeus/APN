@@ -33,7 +33,11 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["VideoCoordinateLat"]), Convert.ToDouble(reader["VideoCoordinateLng"]), Convert.ToDouble(reader["VideoCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateAlt")),
+                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("VideoCoordinateDescription")));
+
                         list.Add(new Video()
                         {
                             VideoId = Convert.ToUInt32(reader["VideoId"]),
@@ -66,13 +70,18 @@ namespace APN.DBContexts
             {
                 conn.Open();
                 var cmd = new MySqlCommand("SELECT * FROM Video WHERE VideoId = @videoId", conn);
+                cmd.Parameters.AddWithValue("@noteId", id);
                 cmd.Parameters.AddWithValue("@videoId", id);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["VideoCoordinateLat"]), Convert.ToDouble(reader["VideoCoordinateLng"]), Convert.ToDouble(reader["VideoCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("VideoCoordinateAlt")),
+                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("VideoCoordinateDescription")));
+
                         videoRecord = new Video()
                         {
                             VideoId = Convert.ToUInt32(reader["VideoId"]),

@@ -32,9 +32,10 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition( ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
-                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")),
+                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("NoteCoordinateDescription")));
 
                         list.Add(new Note()
                         {
@@ -45,11 +46,11 @@ namespace APN.DBContexts
                             APP_GUID = reader["APP_GUID"].ToString(),
                             NoteContent = reader["NoteContent"].ToString(),
                             NoteCoordinates = coordinates,
-                            NoteDatetime = Convert.ToDateTime(reader["NoteDatetime"]),
+                            NoteDatetime = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("NoteDatetime")),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),
-                            ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"]),
-                            ModifiedBy = Convert.ToUInt32(reader["ModifiedBy"]),
+                            ModifiedAt = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("ModifiedAt")),
+                            ModifiedBy = ConversionHelpers.SafeGetInt(reader, reader.GetOrdinal("ModifiedBy")),
                         });
                     }
                 }
@@ -60,6 +61,7 @@ namespace APN.DBContexts
         /// <summary>
         /// Retrieves a single Note Record from the database
         /// </summary>
+        /// <param name="id">Note identifier</param>
         public async Task<Note> GetNote(int id)
         {
             Note noteRecord = null;
@@ -67,14 +69,17 @@ namespace APN.DBContexts
             using (var conn = GetConnection())
             {
                 conn.Open();
-                var cmd = new MySqlCommand("SELECT * FROM note", conn);
+                var cmd = new MySqlCommand("SELECT * FROM note WHERE NoteId = @noteId", conn);
+                cmd.Parameters.AddWithValue("@noteId", id);
+
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
                         var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")),
+                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("NoteCoordinateDescription")));
                         noteRecord = new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -84,11 +89,11 @@ namespace APN.DBContexts
                             APP_GUID = reader["APP_GUID"].ToString(),
                             NoteContent = reader["NoteContent"].ToString(),
                             NoteCoordinates = coordinates,
-                            NoteDatetime = Convert.ToDateTime(reader["NoteDatetime"]),
+                            NoteDatetime = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("NoteDatetime")),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),
-                            ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"]),
-                            ModifiedBy = Convert.ToUInt32(reader["ModifiedBy"]),
+                            ModifiedAt = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("ModifiedAt")),
+                            ModifiedBy = ConversionHelpers.SafeGetInt(reader, reader.GetOrdinal("ModifiedBy")),
                         };
                     }
                 }
@@ -115,6 +120,7 @@ namespace APN.DBContexts
                                                     NoteCoordinateLat,
                                                     NoteCoordinateLng,
                                                     NoteCoordinateAlt,
+                                                    NoteCoordinateDescription,
                                                     NoteDatetime,
                                                     CreatedBy,
                                                     CreatedAt,
@@ -130,6 +136,7 @@ namespace APN.DBContexts
                                                     @NoteCoordinateLat,
                                                     @NoteCoordinateLng,
                                                     @NoteCoordinateAlt,
+                                                    @NoteCoordinateDescription,
                                                     @NoteDatetime,
                                                     @CreatedBy,
                                                     NOW(),
@@ -148,6 +155,7 @@ namespace APN.DBContexts
                     cmd.Parameters.AddWithValue("@NoteCoordinateLat", newNote.NoteCoordinates.Latitude);
                     cmd.Parameters.AddWithValue("@NoteCoordinateLng", newNote.NoteCoordinates.Longitude);
                     cmd.Parameters.AddWithValue("@NoteCoordinateAlt", newNote.NoteCoordinates.Altitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateDescription", newNote.NoteCoordinates.Description);
                     cmd.Parameters.AddWithValue("@NoteDatetime", DateTime.Now);
                     cmd.Parameters.AddWithValue("@CreatedBy", 100);
                     cmd.Parameters.AddWithValue("@ModifiedBy", 100);
