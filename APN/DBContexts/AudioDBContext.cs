@@ -35,7 +35,7 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]), reader["AudioDescription"].ToString());
                         list.Add(new Audio()
                         {
                             AudioId = Convert.ToUInt32(reader["AudioId"]),
@@ -76,7 +76,7 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]), reader["AudioDescription"].ToString());
 
                         audioRecord = new Audio()
                         {

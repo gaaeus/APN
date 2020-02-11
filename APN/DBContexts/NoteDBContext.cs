@@ -101,6 +101,11 @@ namespace APN.DBContexts
             return noteRecord;
         }
 
+        /// <summary>
+        /// Creates a note in the database
+        /// </summary>
+        /// <param name="newNote"></param>
+        /// <returns></returns>
         public async Task<int> CreateNote(Note newNote)
         {
             int newId = -1;
@@ -161,6 +166,7 @@ namespace APN.DBContexts
                     cmd.Parameters.AddWithValue("@ModifiedBy", 100);
 
                     cmd.Prepare();
+
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (reader.Read())
@@ -180,7 +186,51 @@ namespace APN.DBContexts
 
         public async Task UpdateNote(Note note)
         {
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
 
+                    var strSQL = @"UPDATE note SET
+                                    CategoryId = @CategoryId,
+                                    NoteClassification = @NoteClassification,
+                                    NoteTitle = @NoteTitle,
+                                    APP_GUID = @APP_GUID,,
+                                    NoteContent = @NoteContent,
+                                    NoteCoordinateLat = @NoteCoordinateLat,
+                                    NoteCoordinateLng = @NoteCoordinateLng,
+                                    NoteCoordinateAlt = @NoteCoordinateAlt,
+                                    NoteCoordinateDescription = @NoteCoordinateDescription,
+                                    NoteDatetime = @NoteDatetime,
+                                    ModifiedBy = @ModifiedBy,
+                                    ModifiedAt = NOW()
+                                   WHERE NoteId = @NoteId); ";
+
+                    var cmd = new MySqlCommand(strSQL, conn);
+
+                    cmd.Parameters.AddWithValue("@CategoryId", note.CategoryId);
+                    cmd.Parameters.AddWithValue("@NoteClassification", note.NoteClassification);
+                    cmd.Parameters.AddWithValue("@NoteTitle", note.NoteTitle);
+                    cmd.Parameters.AddWithValue("@APP_GUID", note.APP_GUID);
+                    cmd.Parameters.AddWithValue("@NoteContent", note.NoteContent);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateLat", note.NoteCoordinates.Latitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateLng", note.NoteCoordinates.Longitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateAlt", note.NoteCoordinates.Altitude);
+                    cmd.Parameters.AddWithValue("@NoteCoordinateDescription", note.NoteCoordinates.Description);
+                    cmd.Parameters.AddWithValue("@NoteDatetime", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@ModifiedBy", 100);
+                    cmd.Parameters.AddWithValue("@NoteId", note.NoteId);
+
+                    cmd.Prepare();
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
