@@ -34,8 +34,7 @@ namespace APN.DBContexts
                     {
                         var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")),
-                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("NoteCoordinateDescription")));
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
 
                         list.Add(new Note()
                         {
@@ -78,8 +77,7 @@ namespace APN.DBContexts
                     {
                         var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
                                                                ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")),
-                                                               ConversionHelpers.SafeGetString(reader, reader.GetOrdinal("NoteCoordinateDescription")));
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
                         noteRecord = new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),

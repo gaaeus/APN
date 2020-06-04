@@ -22,7 +22,7 @@ namespace APN.Model
         [MaxLength(1024)]
         public string VideoPath { get; set; }
         public BasicGeoposition VideoCoordinates { get; set; }
-        public DateTime VideoDatetime { get; set; }
+		public DateTime VideoDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }

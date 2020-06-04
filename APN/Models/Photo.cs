@@ -22,7 +22,7 @@ namespace APN.Model
         [MaxLength(1024)]
         public string PhotoPath { get; set; }
         public BasicGeoposition PhotoCoordinates { get; set; }
-        public DateTime PhotoDatetime { get; set; }
+		public DateTime PhotoDatetime { get; set; }
 
 		public uint CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }

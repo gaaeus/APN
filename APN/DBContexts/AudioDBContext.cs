@@ -29,13 +29,15 @@ namespace APN.DBContexts
             {
                 conn.Open();
                 var cmd = new MySqlCommand("SELECT * FROM audio where NoteId = @noteId", conn);
-                cmd.Parameters.AddWithValue("@NoteId", noteId);
+                cmd.Parameters.AddWithValue("@noteId", noteId);
 
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]),
+                                                                Convert.ToDouble(reader["AudioCoordinateLng"]), 
+                                                                Convert.ToDouble(reader["AudioCoordinateAlt"]));
                         list.Add(new Audio()
                         {
                             AudioId = Convert.ToUInt32(reader["AudioId"]),
@@ -76,7 +78,9 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), Convert.ToDouble(reader["AudioCoordinateLng"]), Convert.ToDouble(reader["AudioCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["AudioCoordinateLat"]), 
+                                                                Convert.ToDouble(reader["AudioCoordinateLng"]), 
+                                                                Convert.ToDouble(reader["AudioCoordinateAlt"]));
 
                         audioRecord = new Audio()
                         {

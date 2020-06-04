@@ -1,7 +1,30 @@
-﻿namespace APN.Models
+﻿using System;
+using System.Security.Permissions;
+
+namespace APN.Models
 {
     public class BasicGeoposition
     {
+        /// <summary>
+        /// GeoPosition parent type
+        /// </summary>
+        [Serializable]
+        public enum CoordinatesParentType
+        {
+            Note = 0,
+            Photo = 1,
+            Video = 2,
+            Image = 3,
+            Audio = 4
+        }
+
+        /// <summary>
+        /// Identifier for the object owning the coordinates
+        /// </summary>
+        public int ParentId { get; set; }
+
+        public CoordinatesParentType ParentType { get; set; }
+
         /// <summary>
         /// The latitude of the geographic position.
         /// </summary>
@@ -24,8 +47,10 @@
 
         public BasicGeoposition() {}
 
-        public BasicGeoposition(double latitude, double longitude, double altitude, string description)
+        public BasicGeoposition(int parentId, CoordinatesParentType parentType, double latitude, double longitude, double altitude, string description = "")
         {
+            ParentId = parentId;
+            ParentType = parentType;
             Latitude = latitude;
             Longitude = longitude;
             Altitude = altitude;

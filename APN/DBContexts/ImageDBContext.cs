@@ -33,7 +33,9 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["ImageCoordinateLat"]), Convert.ToDouble(reader["ImageCoordinateLng"]), Convert.ToDouble(reader["ImageCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateAlt")));
                         list.Add(new Image()
                         {
                             ImageId = Convert.ToUInt32(reader["ImageId"]),
@@ -72,7 +74,10 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(Convert.ToDouble(reader["ImageCoordinateLat"]), Convert.ToDouble(reader["ImageCoordinateLng"]), Convert.ToDouble(reader["ImageCoordinateAlt"]));
+                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateLat")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateLng")),
+                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("ImageCoordinateAlt")));
+
                         imageRecord = new Image()
                         {
                             ImageId = Convert.ToUInt32(reader["ImageId"]),
