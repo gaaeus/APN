@@ -15,6 +15,7 @@ namespace APN.DBContexts
         public NoteDBContext(string connectionString)
         {
             ConnectionString = connectionString;
+            BasicCoordinatesDBContext = new BasicCoordinatesDBContext();
         }
 
         /// <summary>
@@ -32,10 +33,6 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
-
                         list.Add(new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -44,7 +41,7 @@ namespace APN.DBContexts
                             NoteTitle = reader["NoteTitle"].ToString(),
                             APP_GUID = reader["APP_GUID"].ToString(),
                             NoteContent = reader["NoteContent"].ToString(),
-                            NoteCoordinates = coordinates,
+                            NoteCoordinates = await BasicCoordinatesDBContext.GetGeoposition(Convert.ToUInt32(reader["NoteId"]), Common.CoordinatesParentType.Note),
                             NoteDatetime = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("NoteDatetime")),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),
@@ -75,9 +72,6 @@ namespace APN.DBContexts
                 {
                     while (reader.Read())
                     {
-                        var coordinates = new BasicGeoposition(ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLat")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateLng")),
-                                                               ConversionHelpers.SafeGetDouble(reader, reader.GetOrdinal("NoteCoordinateAlt")));
                         noteRecord = new Note()
                         {
                             NoteId = Convert.ToUInt32(reader["NoteId"]),
@@ -86,7 +80,7 @@ namespace APN.DBContexts
                             NoteTitle = reader["NoteTitle"].ToString(),
                             APP_GUID = reader["APP_GUID"].ToString(),
                             NoteContent = reader["NoteContent"].ToString(),
-                            NoteCoordinates = coordinates,
+                            NoteCoordinates = await BasicCoordinatesDBContext.GetGeoposition(Convert.ToUInt32(reader["NoteId"]), Common.CoordinatesParentType.Note),
                             NoteDatetime = ConversionHelpers.SafeGetDateTime(reader, reader.GetOrdinal("NoteDatetime")),
                             CreatedAt = Convert.ToDateTime(reader["CreatedAt"]),
                             CreatedBy = Convert.ToUInt32(reader["CreatedBy"]),

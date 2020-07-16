@@ -1,27 +1,14 @@
 ﻿using System;
-using System.Security.Permissions;
+using static APN.Common;
 
 namespace APN.Models
 {
     public class BasicGeoposition
     {
         /// <summary>
-        /// GeoPosition parent type
-        /// </summary>
-        [Serializable]
-        public enum CoordinatesParentType
-        {
-            Note = 0,
-            Photo = 1,
-            Video = 2,
-            Image = 3,
-            Audio = 4
-        }
-
-        /// <summary>
         /// Identifier for the object owning the coordinates
         /// </summary>
-        public int ParentId { get; set; }
+        public uint ParentId { get; set; }
 
         public CoordinatesParentType ParentType { get; set; }
 
